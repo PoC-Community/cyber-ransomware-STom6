@@ -1,0 +1,12 @@
+step 1
+strip ransom
+nm ./ransom 
+
+step 2
+objdump -fs 
+
+
+step 3 (correction)
+upx ransom
+
+gdb ransom -> prob on trouve des infos 

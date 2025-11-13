@@ -64,7 +64,7 @@ func_tests:
 
 # --- Compilation et exécution des tests ---
 tests_run: clean directories $(OBJTST)
-	@$(CC) -o $(UTESTS_BIN) $(OBJECT_DIR)/*$(OBJPATTERN) --coverage $(INCLUDES) $(LINK_FLAG) -lcriterion
+	@$(CC) -o $(UTESTS_BIN) $(OBJECT_DIR)/*$(OBJPATTERN) --coverage $(INCLUDES) $(LINK_FLAG) -lcriterion -s
 	@./$(UTESTS_BIN) > /dev/null
 	@echo "[*** TESTS OVER ***]"
 
