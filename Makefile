@@ -6,8 +6,8 @@ NAME		 	= ransom
 CC			 	= gcc
 RM			 	= rm -rf
 
-INCLUDES 	 	= -I./include/
-LINK_FLAG    	= -lsodium
+INCLUDES 	 	= -I./include/ -I/opt/homebrew/include
+LINK_FLAG    	= -L/opt/homebrew/lib -lsodium
 CFLAGS 		 	= -Wall -Wextra \
 				  --coverage   \
 				  -fPIC
@@ -40,10 +40,12 @@ $(OBJECT_DIR):
 
 directories: | $(OBJECT_DIR)
 
+# --- Compilation des .o ---
 $(OBJECT_DIR)/%$(OBJPATTERN) : %$(PATTERN)
-	@$(CC) -o $@ -c $< $(CFLAGS) $(INCLUDES) $(LINK_FLAG)
+	@$(CC) -o $@ -c $< $(CFLAGS) $(INCLUDES)
 	@echo "Compiling $@"
 
+# --- Link final du binaire ---
 $(NAME): $(OBJ)
 	@$(CC) -o $(NAME) $^ $(CFLAGS) $(INCLUDES) $(LINK_FLAG)
 	@echo "[*** COMPILATION SUCCESSFUL ***]"
@@ -60,6 +62,7 @@ re: fclean all
 func_tests:
 	@./tests/.ftests
 
+# --- Compilation et exécution des tests ---
 tests_run: clean directories $(OBJTST)
 	@$(CC) -o $(UTESTS_BIN) $(OBJECT_DIR)/*$(OBJPATTERN) --coverage $(INCLUDES) $(LINK_FLAG) -lcriterion
 	@./$(UTESTS_BIN) > /dev/null
